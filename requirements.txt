@@ -1,0 +1,13 @@
+ipykernel==4.8.2
+ipython==6.4.0
+ipython-genutils==0.2.0
+ipywidgets==7.2.1
+matplotlib==3.0.0
+numpy==1.14.3
+numpydoc==0.8.0
+pandas==0.23.0
+pandocfilters==1.4.2
+regex==2017.4.5
+requests==2.21.0
+requests-oauthlib==1.0.0
+
