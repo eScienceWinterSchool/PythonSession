@@ -1,5 +1,4 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2554804.svg)](https://doi.org/10.5281/zenodo.2554804)
 
 =======
