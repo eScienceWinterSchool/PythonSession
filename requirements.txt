@@ -3,7 +3,7 @@ ipython==7.16.3
 ipython-genutils==0.2.0
 ipywidgets==7.2.1
 matplotlib==3.0.0
-numpy==1.14.3
+numpy==1.22.0
 numpydoc==0.8.0
 pandas==0.23.0
 pandocfilters==1.4.2
