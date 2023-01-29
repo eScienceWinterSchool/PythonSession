@@ -3,8 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><p>Integrating_and_Reshaping</p></body></html>
-</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>index</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -37,6 +36,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
 .highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
 .highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
 .highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
 .highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
 .highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
@@ -14465,10 +14465,6 @@ a.anchor-link {
   display: none;
 }
 
-.highlight  {
-  margin: 0.4em;
-}
-
 /* Input area styling */
 .jp-InputArea {
   overflow: hidden;
@@ -14478,9 +14474,26 @@ a.anchor-link {
   overflow: hidden;
 }
 
-.CodeMirror pre {
+.CodeMirror.cm-s-jupyter .highlight pre {
+/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
+  padding: var(--jp-code-padding) 4px;
   margin: 0;
-  padding: 0;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+
+}
+
+.jp-OutputArea-output pre {
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.jp-RenderedText pre {
+  color: var(--jp-content-font-color1);
+  font-size: var(--jp-code-font-size);
 }
 
 /* Using table instead of flexbox so that we can use break-inside property */
@@ -14524,6 +14537,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 /* Hiding the collapser by default */
 .jp-Collapser {
   display: none;
+}
+
+@page {
+    margin: 0.5in; /* Margin for each printed piece of paper */
 }
 
 @media print {
@@ -14580,13 +14597,16 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<center><img src="http://i.imgur.com/sSaOozN.png" width="500"></center><h2 id="Course:-Computational-Thinking-for-Governance-Analytics">Course: Computational Thinking for Governance Analytics<a class="anchor-link" href="#Course:-Computational-Thinking-for-Governance-Analytics">&#182;</a></h2><h3 id="Prof.-Jos%C3%A9-Manuel-Magallanes,-PhD">Prof. Jos&#233; Manuel Magallanes, PhD<a class="anchor-link" href="#Prof.-Jos%C3%A9-Manuel-Magallanes,-PhD">&#182;</a></h3><ul>
-<li>Visiting Professor of Computational Policy at Evans School of Public Policy and Governance, and eScience Institute Senior Data Science Fellow, University of Washington.</li>
-<li>Professor of Government and Political Methodology, Pontificia Universidad Católica del Perú. </li>
+<center><img src="https://i.imgur.com/hkb7Bq7.png" width="500"></center>
+<h3 id="Prof.-Jos%C3%A9-Manuel-Magallanes,-PhD"><strong>Prof. Jos&#233; Manuel Magallanes, PhD</strong><a class="anchor-link" href="#Prof.-Jos%C3%A9-Manuel-Magallanes,-PhD">&#182;</a></h3><ul>
+<li><p>Professor, Departamento de Ciencias Sociales, Pontificia Universidad Católica del Perú, <a href="mailto:jmagallanes@pucp.edu.pe">jmagallanes@pucp.edu.pe</a></p>
+</li>
+<li><p>Visiting Professor, Evans School of Public Policy and Governance / Senior Data Science Fellow, eScience Institute, University of Washington, <a href="mailto:magajm@uw.edu">magajm@uw.edu</a></p>
+</li>
 </ul>
-<hr>
-<p><a id='home'></a></p>
-<h1 id="Data-Preprocessing-in-Python:-Data-Integration-and-Reshaping">Data Preprocessing in Python: Data Integration and Reshaping<a class="anchor-link" href="#Data-Preprocessing-in-Python:-Data-Integration-and-Reshaping">&#182;</a></h1>
+<hr />
+<hr />
+
 </div>
 </div>
 </div>
@@ -14597,38 +14617,45 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>I will cover some important processes for DFs:</p>
+<p><a id='home'></a></p>
+<h1 id="Introduction-to-Python">Introduction to Python<a class="anchor-link" href="#Introduction-to-Python">&#182;</a></h1><h3 id="Using-Python-for-Pre-Processing">Using Python for Pre Processing<a class="anchor-link" href="#Using-Python-for-Pre-Processing">&#182;</a></h3><p>In the session we will see the use of Python to:</p>
+<ol>
+<li><p>Collect data as dataframes into Python</p>
+</li>
+<li><p>Preprocess a data frame:</p>
 <ul>
-<li><a href="#appending">Appending</a></li>
-<li><a href="#reshaping">Reshaping</a></li>
-<li><a href="#merging">Merging</a></li>
+<li><a href="#subset">Subset data</a></li>
+<li><a href="#fixcolnames">Fix column names</a></li>
+<li><a href="#lookfornas">Look for non-standar missing values</a></li>
+<li><a href="#cleancellvalues">Clean cell values</a></li>
+<li><a href="#formatdtypes">Format data types</a></li>
 </ul>
-<p>Finally, we will see some simple code for:</p>
+</li>
+<li><p>Merge both tables:</p>
+<ul>
+<li><a href="#merging">Basic merge</a></li>
+<li><a href="#fuzzmerging">Fuzzy merge</a></li>
+</ul>
+</li>
+<li><p>Prepare a file for further analysis</p>
 <ul>
 <li><a href="#scaling">Scaling</a></li>
 <li><a href="#exporting">Exporting</a></li>
 </ul>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a id='appending'></a></p>
-<h1 id="Appending">Appending<a class="anchor-link" href="#Appending">&#182;</a></h1><p>As the name implies, this process binds DFs into one, that is, one or more DFs will be put below or on top of another DF. Appending can be done when you fulfill these requisites:</p>
-<ol>
-<li>All the DFs  share the same column names.</li>
-<li>All the DFs  columns are in the same location.</li>
-<li>All the DFs  columns have the same data types.</li>
+</li>
 </ol>
-<p>Let's visit this website: <a href="https://fundforpeace.org/what-we-do/country-risk-and-fragility-data/">https://fundforpeace.org/what-we-do/country-risk-and-fragility-data/</a></p>
-<p>There, you will find several excel files with the <em>Fragile States Index</em> per year. Let's downloan the ones for years 2019-2021 in the folder where this notebook is stored. Then, we can open them:</p>
 
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="1.-Collect-data-tables-into-Python">1. Collect data tables into Python<a class="anchor-link" href="#1.-Collect-data-tables-into-Python">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14640,20 +14667,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="n">file2021</span><span class="o">=</span><span class="s2">"fsi-2021.xlsx"</span>
-<span class="n">file2020</span><span class="o">=</span><span class="s2">"fsi-2020.xlsx"</span>
-<span class="n">file2019</span><span class="o">=</span><span class="s2">"fsi-2019.xlsx"</span>
-    
-
-<span class="c1"># fetching the tables</span>
-<span class="n">fragil2021</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file2021</span><span class="p">)</span>
-<span class="n">fragil2020</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file2020</span><span class="p">)</span>
-<span class="n">fragil2019</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file2019</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Location of data file</span>
+<span class="n">linkFile</span><span class="o">=</span><span class="s2">&quot;https://hdr.undp.org/sites/default/files/2021-22_HDR/HDR21-22_Statistical_Annex_HDI_Table.xlsx&quot;</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -14667,8 +14683,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The goal is to append all of them.</p>
-<p>In the next operations I will <strong>sets</strong>. Let me show you how they work with simple examples:</p>
+<p>Reading in a table from a file using pandas, since it is an Excel file, I requires <strong>openpyxl</strong>:</p>
 
 </div>
 </div>
@@ -14681,15 +14696,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">]</span>
-<span class="n">B</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'d'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">]</span>
-<span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'e'</span><span class="p">,</span><span class="s1">'g'</span><span class="p">]</span>
-
-<span class="c1"># set intersection</span>
-<span class="nb">set</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># available in my computer?</span>
+<span class="o">!</span>pip<span class="w"> </span>show<span class="w"> </span>openpyxl
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -14703,7 +14712,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Then, using set I can verify that condition 1 is fulfilled:</p>
+<p>If not available, please go to Anaconda and install it. Once installed, or if available, continue:</p>
 
 </div>
 </div>
@@ -14716,179 +14725,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># these are the columns shared among the DFs</span>
-<span class="nb">set</span><span class="p">(</span><span class="n">fragil2021</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">&amp;</span><span class="nb">set</span><span class="p">(</span><span class="n">fragil2020</span><span class="p">)</span><span class="o">&amp;</span><span class="nb">set</span><span class="p">(</span><span class="n">fragil2019</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># choose the right function:</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">hdiFile</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">linkFile</span><span class="p">)</span> <span class="c1"># you might get an error!</span>
 </pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>This intersection is offering me a particular order, then you can create DFs with columns located in that same order, which will allow us to fulfill the second condition:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">common</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">fragil2021</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">&amp;</span><span class="nb">set</span><span class="p">(</span><span class="n">fragil2020</span><span class="p">)</span><span class="o">&amp;</span><span class="nb">set</span><span class="p">(</span><span class="n">fragil2019</span><span class="p">)</span>
-
-<span class="c1"># we are keeping just the 'common' columns:</span>
-<span class="n">fragil2021ap</span><span class="o">=</span><span class="n">fragil2021</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">common</span><span class="p">]</span>
-<span class="n">fragil2020ap</span><span class="o">=</span><span class="n">fragil2020</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">common</span><span class="p">]</span>
-<span class="n">fragil2019ap</span><span class="o">=</span><span class="n">fragil2019</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">common</span><span class="p">]</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The last requisite is to make sure they share the same data types. Let's check the data types with the help of <strong>zip</strong>, <strong>set</strong> and <strong>len</strong>:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">]</span>
-<span class="n">B</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">]</span>
-<span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'d'</span><span class="p">]</span>
-
-<span class="c1"># zip will pair elements in the same position:</span>
-<span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">))</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Combining <em>len</em> and <em>set</em> you have a measure of 'variety'. If variety of a <em>set</em> equals <strong>1</strong>, all the elements in a <em>set</em> are the same:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])),</span> \
-<span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])),</span> \
-<span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">11</span><span class="p">]))</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Then, you detect where a group does not have the same elements, that is, where the set size offers a variety greater than one:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># check if every zipped group has a variety greater than 1.</span>
-<span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Applying that to our case:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 1. the zipped data types:</span>
-<span class="n">theZips</span><span class="o">=</span><span class="nb">zip</span><span class="p">(</span><span class="n">fragil2021ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span>
-            <span class="n">fragil2020ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span>
-            <span class="n">fragil2019ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
-<span class="c1"># you see:</span>
-<span class="nb">list</span><span class="p">(</span><span class="n">theZips</span><span class="p">)</span>
-</pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -14903,14 +14744,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 2. computing the variety in each case above:</span>
-<span class="n">theZips</span><span class="o">=</span><span class="nb">zip</span><span class="p">(</span><span class="n">fragil2021ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span>
-            <span class="n">fragil2020ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span>
-            <span class="n">fragil2019ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span> <span class="c1"># why again? zip is generator</span>
-<span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">theZips</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</body></html>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># you may need to add user-agent</span>
 
+<span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0&#39;</span><span class="p">}</span>
+<span class="n">hdiFile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">linkFile</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">)</span>
+</pre></div>
 
      </div>
 </div>
@@ -14924,7 +14762,21 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>From the result above, there is one set of columns that share different data types. Let me modify the previous code to detect the location:</p>
+<p><a href="#home">Home</a>
+______</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="2.--Pre-Processing">2.  Pre Processing<a class="anchor-link" href="#2.--Pre-Processing">&#182;</a></h2><p><a id='subset'></a></p>
+<h3 id="Subset-data">Subset data<a class="anchor-link" href="#Subset-data">&#182;</a></h3><p>The object <strong>hdiFile</strong> is saving the information as a data frame. Just keep what you need; let's check the data head and tail:</p>
 
 </div>
 </div>
@@ -14937,15 +14789,24 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">theZips</span><span class="o">=</span><span class="nb">zip</span><span class="p">(</span><span class="n">fragil2021ap</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
-            <span class="n">fragil2021ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span>
-            <span class="n">fragil2020ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span>
-            <span class="n">fragil2019ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
-
-<span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">theZips</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiFile</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
-</body></html>
 
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiFile</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
 
      </div>
 </div>
@@ -14959,7 +14820,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The Year is not an integer in the DFs for 2020 and 2019, it is <strong>date</strong> type.</p>
+<p>Above, you do not see countries neither in the first rows nor in the last ones. There are rows at the begining and at the end that are not needed.</p>
+<p>Let's find the row indexes that have the data:</p>
 
 </div>
 </div>
@@ -14972,10 +14834,44 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragil2020ap</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># the problem is at the tail:</span>
+<span class="n">hdiFile</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">72</span><span class="p">)</span>
 </pre></div>
-</body></html>
 
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># is this better?</span>
+<span class="n">hdiFile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">206</span><span class="p">,:]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># subsetting as new DF (copy)</span>
+<span class="n">hdiRaw</span><span class="o">=</span><span class="n">hdiFile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">206</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">hdiRaw</span>
+</pre></div>
 
      </div>
 </div>
@@ -14989,7 +14885,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Using the <strong>dt</strong> attribute of <strong>date</strong> column in Pandas, we can recover just the year as an integer:</p>
+<p><a href="#home">Home</a>
+______</p>
+<p><a id='fixcolnames'></a></p>
+<h3 id="Fix-column-names">Fix column names<a class="anchor-link" href="#Fix-column-names">&#182;</a></h3><p>Notice that <strong>hdiRaw</strong> do not have the right column names. So we need to recover them from <strong>hdiFile</strong>:</p>
 
 </div>
 </div>
@@ -15002,11 +14901,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragil2020ap</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span><span class="o">=</span><span class="n">fragil2020ap</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-<span class="n">fragil2019ap</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span><span class="o">=</span><span class="n">fragil2019ap</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiFile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],:]</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15020,7 +14916,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Now it should be fine:</p>
+<p>As you see, the column names are in different positions:</p>
 
 </div>
 </div>
@@ -15033,11 +14929,44 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">theZips</span><span class="o">=</span><span class="nb">zip</span><span class="p">(</span><span class="n">fragil2021ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span><span class="n">fragil2020ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">,</span><span class="n">fragil2019ap</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
-<span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">theZips</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># and</span>
+<span class="n">hdiFile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">4</span><span class="p">,:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
 </pre></div>
-</body></html>
 
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiFile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># save column names </span>
+<span class="n">RealHeaders</span><span class="o">=</span><span class="n">hdiFile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">4</span><span class="p">,:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span><span class="o">+</span><span class="n">hdiFile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+<span class="c1"># these are:</span>
+<span class="n">RealHeaders</span>
+</pre></div>
 
      </div>
 </div>
@@ -15051,7 +14980,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As we have met al the requisites, let's do the appending!</p>
+<p>Let's avoid all the &quot;ranks&quot;:</p>
 
 </div>
 </div>
@@ -15064,11 +14993,26 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragile</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">fragil2021ap</span><span class="p">,</span><span class="n">fragil2020ap</span><span class="p">,</span><span class="n">fragil2019ap</span><span class="p">])</span>
-<span class="n">fragile</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">RealHeaders</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
-</body></html>
 
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># keep just those columns</span>
+<span class="n">hdiRaw</span><span class="o">=</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">hdiRaw</span>
+</pre></div>
 
      </div>
 </div>
@@ -15082,7 +15026,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>You may notice that the column ordering does not look nice, as in general you expect that the columns to the left start with identification of the rows rather than some measurements; then, let's move 'Country','Year','Total' to the left:</p>
+<p>Now, put the right names:</p>
 
 </div>
 </div>
@@ -15095,12 +15039,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># this is a trick: setting columns as index</span>
-<span class="n">fragile</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">'Country'</span><span class="p">,</span><span class="s1">'Year'</span><span class="p">,</span><span class="s1">'Total'</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fragile</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#renaming</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">RealHeaders</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="c1">#result:</span>
+<span class="n">hdiRaw</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15114,7 +15057,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Since I will not use <em>Rank</em>, I will get rid of it:</p>
+<p>We still have column names with missing values, let's get rid of those:</p>
 
 </div>
 </div>
@@ -15127,29 +15070,16 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragile</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'Rank'</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fragile</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BetterHeaders</span><span class="o">=</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+<span class="c1">#result</span>
+<span class="n">BetterHeaders</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
 </div>
 </div>
 
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Now put the row indexes back:</p>
-
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15158,11 +15088,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragile</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fragile</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#subsetting again</span>
+<span class="n">hdiRaw</span><span class="o">=</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">BetterHeaders</span><span class="p">]</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15176,520 +15105,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Let's do some cleaning on the column names:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragile</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">fragile</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">':|\s'</span><span class="p">,</span><span class="s2">""</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fragile</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Finally, let's checl the format:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragile</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a href="#home">Home</a></p>
-<hr>
-<p><a id='reshaping'></a></p>
-<h1 id="Reshaping">Reshaping<a class="anchor-link" href="#Reshaping">&#182;</a></h1><p>Data frames have have different shapes. Let me keep some columns from the last DF so you can notice something:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragileLong</span><span class="o">=</span><span class="n">fragile</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="mi">3</span><span class="p">]</span>
-<span class="n">fragileLong</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The unit of analysis is country. Generally, we are used to see the  unit of analysis once in a column, but it is repeated above, as the country will appear for every year of measurement.</p>
-<p>Also, pay attention to the <strong>amount of rows</strong>. There are 535 rows, then:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">535</span><span class="o">/</span><span class="mi">3</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>That is the amount of rows per data year, so something went wrong during the appending. The truth is that cleaning and formatting will be needed after complex operations like these.</p>
-<p>What is your best guess on what went wrong?</p>
-<p>Whatever it is, let me turn our <strong>long</strong> into <strong>wide</strong> shape:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># wide</span>
-<span class="n">fragileWide</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">fragileLong</span><span class="p">,</span>
-               <span class="n">values</span><span class="o">=</span><span class="s1">'Total'</span><span class="p">,</span> <span class="c1"># values to use</span>
-               <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">'Country'</span><span class="p">],</span> <span class="c1"># unit of analysis</span>
-               <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">])</span> <span class="c1"># the values for NEW column</span>
-<span class="n">fragileWide</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The <strong>wide</strong> shape from a <strong>pivot_table</strong> function looks great, but pay attention:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragileWide</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As you see above, the country is indeed and index, not a column. This is important if you are planing to export this DF. Also, notice that the column names have a title (<em>Year</em>). So in general, you can use this code after the <em>pivot_table</em> function:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragileWide</span><span class="o">=</span> <span class="n">fragileWide</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span>\
-             <span class="n">rename_axis</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-<span class="c1"># result:</span>
-
-<span class="n">fragileWide</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>I mentioned that something went wrong during the appending process. Here, we can discover it:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># what cells have missing values?</span>
-<span class="n">fragileWide</span><span class="p">[</span><span class="n">fragileWide</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As you can see, even though the data DFs were prepared by the same <a href="https://fundforpeace.org/">organization</a>, the DFs have country names that differ among them. Here we need some <strong>manual</strong> changes:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># prepare changes as dict:</span>
-<span class="n">changes</span><span class="o">=</span><span class="p">{</span><span class="s2">"Cabo Verde"</span><span class="p">:</span> <span class="s2">"Cape Verde"</span><span class="p">,</span>
-<span class="s2">"Czechia"</span><span class="p">:</span><span class="s2">"Czech Republic"</span><span class="p">,</span>
-<span class="s2">"Swaziland"</span><span class="p">:</span><span class="s2">"Eswatini"</span><span class="p">,</span>
-<span class="s2">"Israel and West Bank"</span><span class="p">:</span><span class="s2">"Israel"</span><span class="p">,</span>
-<span class="s2">"Kyrgyzstan"</span><span class="p">:</span><span class="s2">"Kyrgyz Republic"</span><span class="p">,</span>
-<span class="s2">"North Macedonia"</span><span class="p">:</span><span class="s2">"Macedonia"</span><span class="p">,</span>
-<span class="s2">"Slovakia"</span><span class="p">:</span> <span class="s2">"Slovak Republic"</span><span class="p">}</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Notice I had to make the changes in the long shape of the DF, so that the wide shape will work fine:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># make changes using 'replace':</span>
-<span class="n">fragileLong</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="n">changes</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Let's redo the wide reshape:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># wide</span>
-<span class="n">fragileWide</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">fragileLong</span><span class="p">,</span>
-               <span class="n">values</span><span class="o">=</span><span class="s1">'Total'</span><span class="p">,</span>
-               <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">'Country'</span><span class="p">],</span>
-               <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">])</span><span class="o">.</span>\
-            <span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span>\
-            <span class="n">rename_axis</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="c1">##</span>
-<span class="n">fragileWide</span><span class="p">[</span><span class="n">fragileWide</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>You have to be very careful when working with countries, specially when you are including or excluding countries; which may cause you hurting someone else's feelings.</p>
-<p>For instance, here I am just keeping <strong>rows</strong> with no missing values:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragileWide</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># axis=1 for columns</span>
-<span class="n">fragileWide</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Also, notice that the final line above says that the last row index is 178; which means there are 179 rows. To correct that, reset the index:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragileWide</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fragileWide</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>For sure, we can turn this wide format into a long one, using the function <strong>melt</strong>:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">fragileWide</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'Country'</span><span class="p">])</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>This would be more explicit:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">fragileWide</span><span class="p">,</span> <span class="c1">#DF</span>
-        <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'Country'</span><span class="p">],</span> <span class="c1">#key</span>
-        <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="mi">2019</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">2021</span><span class="p">],</span> <span class="c1"># columns in wide</span>
-        <span class="n">var_name</span><span class="o">=</span><span class="s1">'Year'</span><span class="p">,</span> <span class="c1"># new name for long column</span>
-        <span class="n">value_name</span><span class="o">=</span><span class="s1">'Total'</span><span class="p">)</span><span class="c1"># new name for values</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a href="#home">Home</a></p>
-<hr>
-<p><a id='merging'></a></p>
-<h1 id="Merging">Merging<a class="anchor-link" href="#Merging">&#182;</a></h1>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Merging data sets need the following considerations:</p>
+<p>Notice above that the columns:</p>
 <ul>
-<li>Merging is done on two data frames.</li>
-<li>You need a column in each data frame that share the same exact and unique values. The column names or titles need not be the same.</li>
-<li>The merged table shows by default the mutual coincidences; but you can also request the values not matched, which will help you detect possible extra cleaning.</li>
-<li>Pandas differentiates the <strong>left</strong> from the <strong>right</strong> data frames.</li>
+<li>Have acronyms in parenthesis.</li>
+<li>Have spaces between words.</li>
 </ul>
-<p>At this stage, let me use two data frames to show how this works:</p>
+<p>Let's see what can be done:</p>
 
 </div>
 </div>
@@ -15702,12 +15123,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">"https://github.com/EvansDataScience/CTforGA_cleaning/raw/main/demoindex.pkl"</span><span class="p">)</span>
-<span class="c1">#and</span>
-<span class="n">fragile2021</span><span class="o">=</span><span class="n">fragile</span><span class="p">[</span><span class="n">fragile</span><span class="o">.</span><span class="n">Year</span><span class="o">==</span><span class="mi">2021</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># bye anything between parenthesis</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;\(.+\)&#39;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15722,28 +15140,15 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragile2021</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># bye anything between parenthesis, bye leading-trailing spaces</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;\(.+\)&#39;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
 </div>
 </div>
 
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Remember the amount of rows of each DF:</p>
-
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15752,10 +15157,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># bye anything between parenthesis, bye leading-trailing spaces, title case</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;\(.+\)&#39;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>\
+                          <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span>\
+                          <span class="nb">str</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15769,7 +15175,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The best scenario would be to create a merged DF with 167 rows, but the actual result is:</p>
+<p>Let's keep this last one for a while:</p>
 
 </div>
 </div>
@@ -15782,10 +15188,13 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">fragile2021</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#changing column names</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;\(.+\)&#39;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>\
+                          <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span>\
+                          <span class="nb">str</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="c1">#so</span>
+<span class="n">hdiRaw</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15799,8 +15208,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The amount of matches among countries is far from the best scenario.</p>
-<p>Let's use set operations to find what countries are not matching:</p>
+<p>Now, it is time to decide how the we want as the shorter column name:</p>
+<ul>
+<li>Same title without spaces:</li>
+</ul>
 
 </div>
 </div>
@@ -15813,30 +15224,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">OnlyDemo</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">OnlyDemo</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">OnlyFragile</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">OnlyFragile</span>
-</pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15850,7 +15239,852 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Here, we should try to find the what countries in <em>OnlyFragile</em> may match the ones in <em>OnlyDemo</em>. We need to use the <strong>fuzzy merge</strong> approach:</p>
+<ul>
+<li>Some acronyms: Let's do this step by step.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># each column names splitted:</span>
+<span class="p">[</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># first letter of each word</span>
+<span class="p">[[</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># final result</span>
+<span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Let's keep the first alternative:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Finally...</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiRaw</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a href="#home">Home</a>
+______</p>
+<p><a id='lookfornas'></a></p>
+<h3 id="Look-for-non-standar-missing-values">Look for non-standar missing values<a class="anchor-link" href="#Look-for-non-standar-missing-values">&#182;</a></h3><p>First check a cell that is full of non-word/non-digit characters:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># full match!</span>
+<span class="p">[</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span><span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The above result is telling you if whether there is or there is not a full match (True/False). You can use that to keep the rows where this is <em>True</em>:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># a quick look...</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">][</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span><span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Let's do this for every column:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">][</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span><span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">][</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span><span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Using <strong>for</strong> loop:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">][</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span><span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)])</span>
+<span class="c1"># you might error!</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Using <strong>try</strong>:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">][</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span><span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This means that the people who created this data set used &quot;..&quot; to represent <strong>missing values</strong>. Let's replace those values:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># replacing !</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;..&quot;</span><span class="p">],</span>
+               <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">#result</span>
+<span class="n">hdiRaw</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a href="#home">Home</a>
+______</p>
+<p><a id='cleancellvalues'></a></p>
+<h3 id="Cleaning-cell-values">Cleaning cell values<a class="anchor-link" href="#Cleaning-cell-values">&#182;</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Do the current cell values have issues?</p>
+<ul>
+<li>Keeping complete data</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># with all missing (after the first column)</span>
+<span class="n">hdiRaw</span><span class="p">[</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># with at least one missing (after the first column)</span>
+<span class="n">hdiRaw</span><span class="p">[</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Then, netx code will only keep complete data, and save it as a new data frame:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiComplete</span><span class="o">=</span><span class="n">hdiRaw</span><span class="p">[</span><span class="o">~</span><span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1">#</span>
+<span class="n">hdiComplete</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>Making sure columns of <em>text</em> are clean:</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get rid of leading and trailing spaces in text cells</span>
+<span class="n">hdiComplete</span><span class="o">.</span><span class="n">Country</span><span class="o">=</span><span class="n">hdiComplete</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>Checking  numeric columns</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiComplete</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Numbers have been recognised as <strong>object</strong> type. It might be due to having a non numeric value in one cell, or because it <strong>had</strong> a non-numeric.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># can you apply math?</span>
+<span class="n">hdiRaw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>You just need to give format.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiClean</span><span class="o">=</span><span class="n">hdiComplete</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a href="#home">Home</a>
+______</p>
+<p><a id='formatdtypes'></a></p>
+<h3 id="Formatting">Formatting<a class="anchor-link" href="#Formatting">&#182;</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>From above, we just need to format the numeric columns:</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li><strong>Formatting into numeric type</strong>:</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># as easy as:</span>
+<span class="n">hdiClean</span><span class="p">[</span><span class="n">hdiClean</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span><span class="o">=</span><span class="n">hdiClean</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#recheck</span>
+<span class="n">hdiClean</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>That was easy!</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiFormat</span><span class="o">=</span><span class="n">hdiClean</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a href="#home">Home</a>
+______</p>
+<h2 id="3.-Integrating">3. Integrating<a class="anchor-link" href="#3.-Integrating">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a id='merging'></a></p>
+<h3 id="Basic-merging">Basic merging<a class="anchor-link" href="#Basic-merging">&#182;</a></h3><p>As our data is clean and formatted (to the best of our knowledge), this process should be easy:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demoFormat</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;demoFormat.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Take a look at the column names:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demoFormat</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdiFormat</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>If we are confident we did a good cleaning and formatting, this step should be easy:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># left_on= / right_on NOT NEEDED (only when column names differ)</span>
+<span class="n">hdiFormat</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">demoFormat</span><span class="p">,</span><span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;Country&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Notice the amount of rowd <strong>returned above</strong>, and compare it with the amount of rows in each data frame:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">hdiFormat</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">demoFormat</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The smallest amount of rows is the maximum amount you expect during merge. Let's check the key values that were not matched:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">onlyHDI</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">hdiFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">demoFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
+<span class="n">onlyDEMO</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">demoFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">hdiFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">onlyHDI</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">onlyDEMO</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a href="#home">Home</a>
+______</p>
+<p><a id='fuzzmerging'></a></p>
+<h3 id="Fuzzy-Merge">Fuzzy Merge<a class="anchor-link" href="#Fuzzy-Merge">&#182;</a></h3><p>The previous objects (onlyDEMO, onlyHDI) inform the values not matched in the other data frame. 
+If you want to recover some of these values, you may follow these steps (you may need to install <strong>thefuzz</strong>):</p>
 
 </div>
 </div>
@@ -15865,11 +16099,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">thefuzz</span> <span class="kn">import</span> <span class="n">process</span> <span class="k">as</span> <span class="n">fz</span>
 
-<span class="c1"># look for a country in OnlyDemo and return the most similar</span>
-<span class="p">[(</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">),</span><span class="n">demo</span><span class="p">)</span> <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)]</span>
-</pre></div>
-</body></html>
+<span class="c1"># take a country from onlyDEMO</span>
+<span class="c1"># and get the country that matches the most in OnlyHDI</span>
 
+<span class="p">[(</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">onlyHDI</span><span class="p">),</span><span class="n">demo</span><span class="p">)</span> <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">onlyDEMO</span><span class="p">)]</span>
+</pre></div>
 
      </div>
 </div>
@@ -15883,7 +16117,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Above you have found some good match. As you see the ones that are wrong have  95% match or less. Let's just filter those:</p>
+<p>You will not get the best outcome in this step, so you just need to keep the 'safe' matches:</p>
 
 </div>
 </div>
@@ -15896,12 +16130,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[(</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">),</span><span class="n">demo</span><span class="p">)</span> 
- <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)</span> 
- <span class="k">if</span> <span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">95</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[(</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">onlyHDI</span><span class="p">),</span><span class="n">demo</span><span class="p">)</span> <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">onlyDEMO</span><span class="p">)</span> \
+ <span class="k">if</span> <span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">onlyHDI</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">90</span><span class="p">]</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15915,7 +16146,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Once you have good matches, you have to create dictionary like this:</p>
+<p>The next step is replace the cells values in one of the data frames.
+For that, you need to create a <strong>dictionary of changes</strong>:</p>
 
 </div>
 </div>
@@ -15928,14 +16160,50 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">changesFragile1</span><span class="o">=</span><span class="p">{</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span><span class="n">demo</span> 
-                 <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)</span> 
-                 <span class="k">if</span> <span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">95</span><span class="p">}</span>
-<span class="c1">#dict of matches</span>
-<span class="n">changesFragile1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># this dictionary is prepared for HDI data:</span>
+<span class="p">{</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">onlyHDI</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span><span class="n">demo</span> <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">onlyDEMO</span><span class="p">)</span> \
+ <span class="k">if</span> <span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">onlyHDI</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">90</span><span class="p">}</span>
 </pre></div>
-</body></html>
 
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># NOW create the dict and make the changes</span>
+<span class="n">changesHDI</span><span class="o">=</span><span class="p">{</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">onlyHDI</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span><span class="n">demo</span> \
+            <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">onlyDEMO</span><span class="p">)</span> \
+            <span class="k">if</span> <span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">onlyHDI</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">90</span><span class="p">}</span>
+
+<span class="c1"># replace in HDI</span>
+
+<span class="n">hdiFormat</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="n">changesHDI</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># did you get more rows?</span>
+<span class="n">hdiFormat</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">demoFormat</span><span class="p">)</span>
+</pre></div>
 
      </div>
 </div>
@@ -15949,7 +16217,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>You can use that dict for the replacements:</p>
+<p>If you redo this process, you may recover more rows. I will not do it here, but you are welcome to.</p>
 
 </div>
 </div>
@@ -15962,10 +16230,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="n">changesFragile1</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hint: start with these two lines!</span>
+<span class="n">onlyHDI</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">hdiFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">demoFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
+<span class="n">onlyDEMO</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">demoFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">hdiFormat</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -15979,8 +16247,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Now the countries in fragile2021 have more matches.</p>
-<p>This process can be done a few more times, and you can recover more rows for the merging process. Let's see:</p>
+<p>As our merge ended with one fuzzy-merge iteration; the data frame to use further will be:</p>
 
 </div>
 </div>
@@ -15993,140 +16260,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># second try</span>
-<span class="n">OnlyDemo</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">OnlyFragile</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="p">[(</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">),</span><span class="n">demo</span><span class="p">)</span> <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdidem</span><span class="o">=</span><span class="n">hdiFormat</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">demoFormat</span><span class="p">)</span>
 </pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># second dict of changes</span>
-<span class="n">changesFragile2</span><span class="o">=</span><span class="p">{</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span><span class="n">demo</span> 
-                 <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)</span> 
-                 <span class="k">if</span> <span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">80</span><span class="p">}</span>
-<span class="c1">#dict of matches</span>
-<span class="n">changesFragile2</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># make the changes</span>
-<span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="n">changesFragile2</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># third try</span>
-<span class="n">OnlyDemo</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">OnlyFragile</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="p">[(</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">),</span><span class="n">demo</span><span class="p">)</span> <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)]</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># third dict of changes</span>
-<span class="n">changesFragile3</span><span class="o">=</span><span class="p">{</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span><span class="n">demo</span> 
-                 <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)</span> 
-                 <span class="k">if</span> <span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">64</span><span class="p">}</span>
-<span class="c1">#dict of matches</span>
-<span class="n">changesFragile3</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># make changes</span>
-<span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="n">changesFragile3</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># fourth try</span>
-
-<span class="n">OnlyDemo</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">OnlyFragile</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">fragile2021</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">demo</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="p">[(</span><span class="n">fz</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">demo</span><span class="p">,</span> <span class="n">OnlyFragile</span><span class="p">),</span><span class="n">demo</span><span class="p">)</span> <span class="k">for</span> <span class="n">demo</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">OnlyDemo</span><span class="p">)]</span>
-</pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -16140,7 +16275,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The fourth attempt did not offer good results. Those two countries will not be able to be matched. Let's retry the merge:</p>
+<p>The format should still be good:</p>
 
 </div>
 </div>
@@ -16153,10 +16288,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">fragile2021</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdidem</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -16170,7 +16303,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Then:</p>
+<p><a href="#home">Home</a>
+______</p>
+<h2 id="Prepare-file-for-further-work">Prepare file for further work<a class="anchor-link" href="#Prepare-file-for-further-work">&#182;</a></h2><p><a id='scaling'></a></p>
+<h3 id="Scaling">Scaling<a class="anchor-link" href="#Scaling">&#182;</a></h3><p>It would be good to check the range of values of your numeric data. You can simply use <strong>describe</strong> (just requesting <em>min</em> and <em>max</em>):</p>
 
 </div>
 </div>
@@ -16183,29 +16319,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo_fragile</span><span class="o">=</span><span class="n">demo</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">fragile2021</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdidem</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span> <span class="c1">#T for transposing</span>
 </pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#checking:</span>
-<span class="n">demo_fragile</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -16219,81 +16334,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a href="#home">Home</a></p>
-<hr>
-<p><a id='scaling'></a></p>
-<h1 id="Data-Scaling">Data Scaling<a class="anchor-link" href="#Data-Scaling">&#182;</a></h1>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>It all look great so far. However, once you think you have the data ready, you should see the data ranges:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo_fragile</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">'all'</span><span class="p">)</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The <strong>describe</strong> will only show numerical stats by defaule, so you need the parameter <em>include</em> set to <em>all</em>. However, for our case, we should just request the range:</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo_fragile</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">'min'</span><span class="p">,</span><span class="s1">'max'</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span> <span class="c1"># notice the transposing:</span>
-</pre></div>
-</body></html>
-
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>A boxplot may also be helpful:</p>
+<p>As you see different ranges, it would be good to request a <strong>boxplot</strong> (make sure to install <strong>matplotlib</strong> if not previously installed)</p>
 
 </div>
 </div>
@@ -16308,11 +16349,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="n">demo_fragile</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'box'</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">hdidem</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">();</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -16326,7 +16365,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As you see above, the <strong>Total</strong> has a range of values different than the rest. Let's make sure all numeric columns share the same range:</p>
+<p>Notice that our concern is the numeric data. In case of categorical it is unusual to worry about it, but some cases might need some thinking.</p>
+<p>Let me get the column names of the numeric columns:</p>
 
 </div>
 </div>
@@ -16339,21 +16379,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="c1"># prepare the process</span>
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="c1"># scaler = preprocessing.MinMaxScaler() default is 0 to 1</span>
+<span class="n">colsToScale</span> <span class="o">=</span> <span class="n">hdidem</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
 
-<span class="c1"># apply process</span>
-<span class="n">columnsToScale</span><span class="o">=</span><span class="p">[</span><span class="s1">'Total'</span><span class="p">]</span> <span class="c1"># you can add more columns</span>
-<span class="n">scaledResult</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">demo_fragile</span><span class="p">[</span><span class="n">columnsToScale</span><span class="p">])</span>
-
-<span class="c1"># result</span>
-<span class="n">scaledResult</span>
+<span class="n">colsToScale</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -16367,7 +16398,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>You just got:</p>
+<p>Time to produce new ranges (make sure you have previously install <strong>scikit-learn</strong>):</p>
 
 </div>
 </div>
@@ -16380,10 +16411,13 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">scaledResult</span><span class="p">)</span>
-</pre></div>
-</body></html>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
 
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+
+<span class="n">df_minmax</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">hdidem</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">colsToScale</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="n">df_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_minmax</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">colsToScale</span><span class="p">)</span>
+</pre></div>
 
      </div>
 </div>
@@ -16397,7 +16431,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Let me use that array to replace my values in the pandas <em>Series</em>:</p>
+<p>Let's explore the result:</p>
 
 </div>
 </div>
@@ -16410,10 +16444,24 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo_fragile</span><span class="o">.</span><span class="n">Total</span><span class="o">=</span><span class="n">arrayTotal</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_scaled</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span> 
 </pre></div>
-</body></html>
 
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_scaled</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">);</span>
+</pre></div>
 
      </div>
 </div>
@@ -16427,7 +16475,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Now, these are my new data values:</p>
+<p>Let's add a suffix to the column names:</p>
 
 </div>
 </div>
@@ -16440,10 +16488,25 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo_fragile</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'box'</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">90</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_scaled</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">df_scaled</span><span class="o">.</span><span class="n">columns</span><span class="o">+</span><span class="s2">&quot;_mM&quot;</span>
 </pre></div>
-</body></html>
 
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># concat to the right (instead of bottom) with axis=1</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">hdidem</span><span class="p">,</span><span class="n">df_scaled</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
 
      </div>
 </div>
@@ -16457,7 +16520,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>An alternative would have been to create a new column, so that you can keep the old value instead of overwriting it.</p>
+<p>So this is our last version:</p>
 
 </div>
 </div>
@@ -16470,10 +16533,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#demo_fragile['Total_mM']=scaledResult</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdidem_plus</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">hdidem</span><span class="p">,</span><span class="n">df_scaled</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -16487,11 +16548,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a href="#home">Home</a></p>
-<hr>
+<p><a href="#home">Home</a>
+______</p>
 <p><a id='exporting'></a></p>
-<h1 id="Exporting-file">Exporting file<a class="anchor-link" href="#Exporting-file">&#182;</a></h1><p>The current <em>demo_fragile</em> data frame is clean and formatted. It is time to send it to a format that will keep all our work for future use:</p>
-
+<h3 id="Exporting">Exporting<a class="anchor-link" href="#Exporting">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -16514,14 +16574,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo_fragile</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s2">"demo_fragile.pkl"</span><span class="p">)</span>
-<span class="c1"># you will need: DF=pd.read_pickle("demo_fragile.pkl")</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdidem_plus</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s2">&quot;hdidem_plus.pkl&quot;</span><span class="p">)</span>
+<span class="c1"># you will need: DF=pd.read_pickle(&quot;hdidem_plus.pkl&quot;)</span>
 <span class="c1"># or:</span>
 <span class="c1"># from urllib.request import urlopen</span>
-<span class="c1"># DF=pd.read_pickle(urlopen("https://..../demo_fragile.pkl"),compression=None)</span>
+<span class="c1"># DF=pd.read_pickle(urlopen(&quot;https://...../hdidem_plus.pkl&quot;),compression=None)</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
@@ -16547,23 +16605,33 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#try the following before starting Python:</span>
-<span class="c1">#export LD_LIBRARY_PATH="$(python -m rpy2.situation LD_LIBRARY_PATH)":${LD_LIBRARY_PATH}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>show<span class="w"> </span>rpy2
+</pre></div>
 
-<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
 <span class="n">pandas2ri</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 
 <span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 
-<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">'base'</span><span class="p">)</span>
-<span class="n">base</span><span class="o">.</span><span class="n">saveRDS</span><span class="p">(</span><span class="n">demo_fragile</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="s2">"demo_fragile.RDS"</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="n">base</span><span class="o">.</span><span class="n">saveRDS</span><span class="p">(</span><span class="n">hdidem_plus</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;hdidem_plus.RDS&quot;</span><span class="p">)</span>
 
-
-<span class="c1">#In R, you call it with: DF = readRDS("demo_fragile.RDS")</span>
-<span class="c1">#or, if iyou read from cloud: DF = readRDS(url("https://..../demo_fragile.RDS")</span>
+<span class="c1">#In R, you call it with: DF = readRDS(&quot;hdidem_plus.RDS&quot;)</span>
+<span class="c1">#or, if read from cloud: DF = readRDS(url(&quot;https://...../hdidem_plus.RDS&quot;)</span>
 </pre></div>
-</body></html>
-
 
      </div>
 </div>
