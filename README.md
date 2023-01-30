@@ -4,4 +4,7 @@
 # PythonSession
 Introduction to Python
 
-https://esciencewinterschool.github.io/PythonSession/.
+CONCEPTS: https://mm.tt/map/2577680262
+CODE: https://esciencewinterschool.github.io/PythonSession/
+
+
